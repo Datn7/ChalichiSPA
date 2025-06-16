@@ -1,1 +1,18 @@
-<p>task-list works!</p>
+<h2>Your Tasks</h2>
+
+<ul *ngIf="tasks.length; else noTasks">
+  <li *ngFor="let task of tasks">
+    <strong [style.textDecoration]="task.isComplete ? 'line-through' : 'none'">
+      {{ task.title }} ({{ task.priority }}) - {{ task.deadline }}
+    </strong>
+
+    <button *ngIf="!task.isComplete" (click)="markComplete(task)">
+      ✔ Complete
+    </button>
+    <button (click)="deleteTask(task)">🗑 Delete</button>
+  </li>
+</ul>
+
+<ng-template #noTasks>
+  <p>No tasks found.</p>
+</ng-template>

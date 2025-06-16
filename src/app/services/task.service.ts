@@ -13,6 +13,10 @@ export class TaskService {
     return this.http.get<TaskItem[]>(this.apiUrl);
   }
 
+  createTask(task: Omit<TaskItem, 'id'>): Observable<TaskItem> {
+    return this.http.post<TaskItem>(this.apiUrl, task);
+  }
+
   completeTask(id: number): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}`, { isComplete: true });
   }

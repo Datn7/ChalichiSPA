@@ -1,0 +1,29 @@
+<h3>Create a Task</h3>
+
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <label>
+    Title:
+    <input formControlName="title" />
+  </label>
+
+  <label>
+    Description:
+    <textarea formControlName="description"></textarea>
+  </label>
+
+  <label>
+    Deadline:
+    <input type="date" formControlName="deadline" />
+  </label>
+
+  <label>
+    Priority:
+    <select formControlName="priority">
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+  </label>
+
+  <button type="submit" [disabled]="taskForm.invalid">Add Task</button>
+</form>

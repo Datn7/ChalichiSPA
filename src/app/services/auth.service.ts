@@ -5,7 +5,7 @@ import { LoginDto, RegisterDto } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'https://localhost:5001/api/auth';
+  private apiUrl = 'https://localhost:5052/api/auth';
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(private http: HttpClient) {}
@@ -23,28 +23,35 @@ export class AuthService {
   }
 
   logout(): void {
-    if (typeof window !== 'undefined') {
+    if (this.isBrowser()) {
       localStorage.removeItem('token');
+      this.isLoggedInSubject.next(false);
     }
-  }
-
-  private setToken(token: string) {
-    localStorage.setItem('token', token);
-    this.isLoggedInSubject.next(true);
   }
 
   getToken(): string | null {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('token');
-    }
-    return null;
+    return this.isBrowser() ? localStorage.getItem('token') : null;
   }
 
   isLoggedIn(): Observable<boolean> {
     return this.isLoggedInSubject.asObservable();
   }
 
+  //  Safely checks for token presence
   private hasToken(): boolean {
-    return !!localStorage.getItem('token');
+    return this.isBrowser() && !!localStorage.getItem('token');
+  }
+
+  //  Safely sets token and login state
+  private setToken(token: string) {
+    if (this.isBrowser()) {
+      localStorage.setItem('token', token);
+      this.isLoggedInSubject.next(true);
+    }
+  }
+
+  //  Shared utility method for SSR safety
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
 }

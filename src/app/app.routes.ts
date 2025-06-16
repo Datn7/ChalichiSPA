@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginC } from './auth/login/login.c';
-import { RegisterC } from './register/register.c';
+import { RegisterC } from '../app/auth/register/register.c';
 import { AuthGuard } from './guards/auth-guard';
 import { TaskListComponent } from './components/task-list/task-list.component';
 

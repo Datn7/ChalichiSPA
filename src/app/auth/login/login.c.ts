@@ -4,15 +4,18 @@ import {
   Validators,
   FormGroup,
   FormControl,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginDto } from '../../models/user.model'; // adjust if needed
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.c.html',
   styleUrls: ['./login.c.scss'],
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class LoginC {
   loginForm: FormGroup<{
